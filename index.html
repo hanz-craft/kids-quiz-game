@@ -3,317 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Body Parts</title>
+    <title>Neon Body Parts Quiz - เกมทายอวัยวะ</title>
     <style>
         /* =========================================
-           NEON COLORFUL DESIGN & CSS
+           NEON CUTE CSS DESIGN
         ========================================= */
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Kanit:wght@400;600&display=swap');
 
         :root {
-            --bg-color: #0f0c29;
-            --neon-blue: #00f3ff;
-            --neon-pink: #ff00c8;
-            --neon-green: #00ff66;
-            --neon-yellow: #fffb00;
-            --neon-red: #ff3333;
-        }
-
-        * {
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            --bg-color: #1a1a2e;
+            --team1-color: #ff007f; /* Neon Pink */
+            --team2-color: #00f3ff; /* Neon Cyan */
+            --correct-color: #39ff14; /* Neon Green */
+            --wrong-color: #ff3333;
+            --text-light: #ffffff;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg-color);
-            color: white;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Kanit', 'Fredoka One', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow: hidden;
+            user-select: none; /* Prevent text selection while tapping */
         }
 
+        /* Screens */
         .screen {
             display: none;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
 
-        .active {
-            display: flex;
+        .active { display: flex; }
+
+        /* Typography & Neon Text */
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff007f, 0 0 30px #ff007f;
         }
 
-        /* Nav Bar */
-        .nav-bar {
+        h2 { font-size: 2.5rem; margin: 10px; }
+        
+        .emoji-pic {
+            font-size: 8rem;
+            margin: 10px;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+        }
+
+        /* Buttons */
+        .btn {
+            background: transparent;
+            border: 4px solid var(--text-light);
+            color: var(--text-light);
+            font-size: 2rem;
+            padding: 15px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            margin: 10px;
+            box-shadow: 0 0 10px var(--text-light) inset, 0 0 10px var(--text-light);
+        }
+
+        .btn:active { transform: scale(0.95); }
+
+        .btn-t1 { border-color: var(--team1-color); box-shadow: 0 0 15px var(--team1-color) inset, 0 0 15px var(--team1-color); }
+        .btn-t2 { border-color: var(--team2-color); box-shadow: 0 0 15px var(--team2-color) inset, 0 0 15px var(--team2-color); }
+        
+        .btn-t1:hover { background: var(--team1-color); color: #fff; }
+        .btn-t2:hover { background: var(--team2-color); color: #1a1a2e; }
+
+        /* Top Navigation & Status Bar */
+        .top-bar {
+            position: absolute;
+            top: 0;
             width: 100%;
-            max-width: 1200px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            border: 2px solid var(--neon-yellow);
-            box-shadow: 0 0 15px var(--neon-yellow);
-            margin-bottom: 20px;
+            padding: 15px 30px;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
 
         .nav-btn {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-            padding: 10px 20px;
             font-size: 1.2rem;
+            padding: 10px 20px;
+            background: #333;
+            border: 2px solid #fff;
+            color: white;
             border-radius: 15px;
             cursor: pointer;
+        }
+
+        .timer-circle {
+            font-size: 2.5rem;
             font-weight: bold;
-            transition: 0.2s;
+            color: #ffe600;
+            text-shadow: 0 0 15px #ffe600;
         }
 
-        .nav-btn:hover {
-            background: white;
-            color: black;
-        }
-
-        /* Typography & Glows */
-        h1 {
-            font-size: 4rem;
-            text-align: center;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
-            margin-bottom: 30px;
-        }
-
-        .timer {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--neon-yellow);
-            text-shadow: 0 0 15px var(--neon-yellow);
-            animation: pulse 1s infinite alternate;
-        }
-
-        /* Question Area */
-        .question-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .question-image {
-            font-size: 8rem;
-            line-height: 1.2;
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-            animation: bounce 2s infinite;
-        }
-
-        .question-text {
-            font-size: 2rem;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-green);
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px 30px;
-            border-radius: 20px;
-            border: 2px solid var(--neon-green);
-        }
-
-        /* Split Screen Play Area */
-        .split-area {
+        /* Split Screen Game Layout */
+        .game-area {
             display: flex;
             width: 100%;
-            max-width: 1200px;
-            gap: 20px;
-            flex: 1;
+            height: 100%;
+            padding-top: 80px; /* Space for top bar */
+            box-sizing: border-box;
         }
 
-        .team-board {
+        .team-side {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            border-right: 2px dashed rgba(255,255,255,0.2);
             padding: 20px;
-            border-radius: 30px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 4px solid;
-            box-shadow: inset 0 0 20px, 0 0 20px;
         }
+        .team-side:last-child { border-right: none; }
 
-        .team1 {
-            border-color: var(--neon-blue);
-            color: var(--neon-blue);
-        }
-
-        .team2 {
-            border-color: var(--neon-pink);
-            color: var(--neon-pink);
-        }
-
-        .score {
+        .team-title {
             font-size: 2.5rem;
-            margin: 0 0 20px 0;
-            color: white;
-            text-shadow: 0 0 10px currentColor;
+            margin-bottom: 20px;
+        }
+        .t1-title { color: var(--team1-color); text-shadow: 0 0 10px var(--team1-color); }
+        .t2-title { color: var(--team2-color); text-shadow: 0 0 10px var(--team2-color); }
+
+        .score-box {
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
 
+        /* Option Buttons Grid */
         .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             width: 100%;
+            max-width: 300px;
         }
 
-        .btn-option {
-            background: transparent;
-            color: white;
-            font-family: inherit;
-            font-size: 1.5rem;
-            font-weight: 700;
-            padding: 20px 10px;
+        .opt-btn {
+            font-size: 2rem;
+            padding: 20px;
             border-radius: 20px;
-            border: 3px solid;
+            border: 3px solid #fff;
+            background: #2a2a40;
+            color: white;
             cursor: pointer;
-            transition: all 0.1s;
-            word-wrap: break-word;
+            transition: 0.3s;
         }
 
-        .team1 .btn-option {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-        
-        .team2 .btn-option {
-            border-color: var(--neon-pink);
-            box-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        .btn-option:active {
-            transform: scale(0.95);
+        /* Answer States */
+        .opt-btn.correct {
+            background: var(--correct-color);
+            border-color: #fff;
+            color: #000;
+            box-shadow: 0 0 20px var(--correct-color);
+            transform: scale(1.05);
         }
 
-        /* Correct / Wrong States */
-        .btn-option.correct {
-            background: var(--neon-green) !important;
-            color: black !important;
-            border-color: var(--neon-green) !important;
-            box-shadow: 0 0 30px var(--neon-green) !important;
-        }
-
-        .btn-option.wrong {
-            background: var(--neon-red) !important;
-            color: white !important;
-            border-color: var(--neon-red) !important;
+        .opt-btn.wrong {
+            background: var(--wrong-color);
             opacity: 0.5;
         }
-
-        .disabled {
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* Big Play Button */
-        .btn-play {
-            background: transparent;
-            color: var(--neon-green);
-            border: 4px solid var(--neon-green);
-            box-shadow: 0 0 20px var(--neon-green), inset 0 0 20px var(--neon-green);
-            font-size: 3rem;
-            padding: 20px 60px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 900;
-            text-transform: uppercase;
-            transition: 0.3s;
-            margin-top: 20px;
-        }
-
-        .btn-play:hover {
-            background: var(--neon-green);
-            color: black;
-        }
-
-        .winner-text {
-            font-size: 5rem;
-            text-align: center;
-            animation: bounce 1s infinite;
-        }
+        
+        .disabled { pointer-events: none; opacity: 0.8; }
 
         /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        @keyframes pulse { from { opacity: 0.8; transform: scale(1); } to { opacity: 1; transform: scale(1.1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Mobile Friendly */
-        @media (max-width: 800px) {
-            .split-area { flex-direction: column; }
-            .team-board { padding: 10px; border-width: 2px; }
+        /* Mobile Layout Adjustments */
+        @media (max-width: 768px) {
+            .game-area { flex-direction: column; }
+            .team-side { border-right: none; border-bottom: 2px dashed rgba(255,255,255,0.2); padding: 10px; }
+            .team-side:last-child { border-bottom: none; }
+            .emoji-pic { font-size: 4rem; margin: 0; }
+            h2 { font-size: 1.5rem; }
+            .opt-btn { font-size: 1.2rem; padding: 10px; }
+            .top-bar { padding: 10px; }
+            .timer-circle { font-size: 1.8rem; }
             h1 { font-size: 2.5rem; }
-            .question-image { font-size: 5rem; margin: 0; }
-            .question-text { font-size: 1.2rem; padding: 10px; }
-            .btn-option { font-size: 1.1rem; padding: 15px 5px; }
-            .timer { font-size: 2rem; }
-            .score { font-size: 1.5rem; margin-bottom: 10px;}
         }
     </style>
 </head>
 <body>
 
-    <div id="screen-home" class="screen active">
-        <h1>Body Parts<br>Vocabulary Quiz! 🦁</h1>
-        <h2 style="color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink);">For Grade 1 & Kindergarten</h2>
-        <button class="btn-play" onclick="startGame()">Start Game</button>
-        <button class="nav-btn" style="margin-top: 30px; border-color: var(--neon-red);" onclick="exitGame()">Exit</button>
+    <div id="home-screen" class="screen active">
+        <h1>Neon Body Quiz!</h1>
+        <h2 style="color: #fff;">เกมทายอวัยวะ สำหรับเด็ก 3 ขวบ</h2>
+        <div style="font-size: 5rem; margin: 20px;">👦👧</div>
+        <button class="btn btn-t1" onclick="startGame()">PLAY (เล่นเลย)</button>
+        <button class="btn" style="border-color: #aaa;" onclick="exitGame()">EXIT (ออก)</button>
     </div>
 
-    <div id="screen-game" class="screen">
-        <div class="nav-bar">
+    <div id="game-screen" class="screen">
+        <div class="top-bar">
             <button class="nav-btn" onclick="goHome()">🏠 Home</button>
-            <div id="timer" class="timer">15</div>
-            <button class="nav-btn" onclick="restartGame()">🔄 Restart</button>
+            <div id="timer" class="timer-circle">15</div>
+            <button class="nav-btn" onclick="nextQuestion(true)">⏭️ Skip</button>
         </div>
 
-        <div class="question-container">
-            <div id="q-image" class="question-image">❓</div>
-            <div id="q-text" class="question-text">Loading question...</div>
-        </div>
-
-        <div class="split-area">
-            <div class="team-board team1">
-                <h2 class="score">Team 1: <span id="score1">0</span></h2>
-                <div id="t1-options" class="options-grid"></div>
+        <div class="game-area">
+            <div class="team-side">
+                <div class="team-title t1-title">Team Pink</div>
+                <div class="score-box" style="color: var(--team1-color);" id="score1">0</div>
+                
+                <div class="emoji-pic" id="q-pic1">👁️</div>
+                <h2 id="q-text1">What is this?</h2>
+                
+                <div class="options-grid" id="options-team1">
+                    </div>
             </div>
-            
-            <div class="team-board team2">
-                <h2 class="score">Team 2: <span id="score2">0</span></h2>
-                <div id="t2-options" class="options-grid"></div>
+
+            <div class="team-side">
+                <div class="team-title t2-title">Team Cyan</div>
+                <div class="score-box" style="color: var(--team2-color);" id="score2">0</div>
+                
+                <div class="emoji-pic" id="q-pic2">👁️</div>
+                <h2 id="q-text2">What is this?</h2>
+                
+                <div class="options-grid" id="options-team2">
+                    </div>
             </div>
         </div>
     </div>
 
-    <div id="screen-end" class="screen">
-        <div id="winner-msg" class="winner-text">🏆 Team 1 Wins!</div>
-        <h2 id="final-scores" style="font-size: 3rem; text-shadow: 0 0 15px white;">T1: 0 | T2: 0</h2>
-        <br>
-        <button class="btn-play" onclick="goHome()">Play Again</button>
+    <div id="end-screen" class="screen">
+        <h1 id="winner-text" style="font-size: 5rem;">Team 1 Wins!</h1>
+        <div style="font-size: 4rem; margin: 20px;">🏆✨</div>
+        <h2 id="final-scores">Pink: 0 | Cyan: 0</h2>
+        <button class="btn btn-t1" onclick="startGame()">Play Again (เล่นอีกครั้ง)</button>
+        <button class="btn nav-btn" onclick="goHome()">🏠 Home</button>
     </div>
 
-    <div id="screen-exit" class="screen">
+    <div id="exit-screen" class="screen">
         <h1>Goodbye! 👋</h1>
-        <h2>You can close this tab now.</h2>
-        <button class="nav-btn" onclick="goHome()">Go Back</button>
+        <h2>บ๊ายบาย!</h2>
+        <button class="btn nav-btn" onclick="goHome()">Go Back</button>
     </div>
 
     <script>
         /* =========================================
-           EDITABLE QUIZ DATA (Thai 3yo / Grade 1)
-           Change emojis, questions, and answers here!
-           correct
+           EDITABLE QUIZ DATA 
+           Change pictures (emojis or img tags), questions, and vocab here!
+        ========================================= */
+        const quizData = [
+            {
+                picture: "👁️", 
+                question: "ตา (Eye)",
+                options: ["ตา (Eye)", "หู (Ear)", "ปาก (Mouth)"],
+                correctIndex: 0
+            },
+            {
+                picture: "👂", 
+                question: "หู (Ear)",
+                options: ["จมูก (Nose)", "หู (Ear)", "มือ (Hand)"],
+                correctIndex: 1
+            },
+            {
+                picture: "👄", 
+                question: "ปาก (Mouth)",
+                options: ["เท้า (Foot)", "ตา (Eye)", "ปาก (Mouth)"],
+                correctIndex: 2
+            },
+            {
+                picture: "👃", 
+                question: "จมูก (Nose)",
+                options: ["หู (Ear)", "จมูก (Nose)", "หัว (Head)"],
+                correctIndex: 1
+            },
+            {
+                picture: "✋", 
+                question: "มือ (Hand)",
+                options: ["มือ (Hand)", "ขา (Leg)", "ตา (Eye)"],
+                correctIndex: 0
+            },
+            {
+                picture: "🦶", 
+                question: "เท้า (Foot)",
+                options: ["ปาก (Mouth)", "หัว (Head)", "เท้า (Foot)"],
+                correctIndex: 2
+            },
+            {
+                picture: "👤", 
+                question: "หัว (Head)",
+                options: ["หัว (Head)", "มือ (Hand)", "จมูก (Nose)"],
+                correctIndex: 0
+            }
+        ];
+
+        /* =========================================
+           GAME VARIABLES & AUDIO SYSTEM
+        ========================================= */
+        let currentQIndex = 0;
+        let scoreT1 = 0;
+        let scoreT2 = 0;
+        let timeLeft = 15;
+        let timerInterval;
+        let t1Answered = false;
+        let t2Answered = false;
+
+        // Sound Engine (Web Audio API) - No external files needed!
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'bgm') {
+                // Short happy sequence to act as start sound
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime); // A4
+                osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.2); // C#5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.4); // E5
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.8);
+            }
+            else if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } 
+            else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime + 0.2);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            }
+        }
+
+        /* =========================================
+           GAME LOGIC
+        ========================================= */
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function goHome() {
+            clearInterval(timerInterval);
+            switchScreen('home-screen');
+        }
+
+        function exitGame() {
+            switchScreen('exit-screen');
+        }
+
+        function startGame() {
+            playSound('bgm');
+            scoreT1 = 0;
+            scoreT2 = 0;
+            updateScores();
+            
+            // Shuffle questions for variety
+            quizData.sort(() => Math.random() - 0.5);
+            currentQIndex = 0;
+            
+            switchScreen('game-screen');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQIndex >= quizData.length) {
+                showWinner();
+                return;
+            }
+
+            t1Answered = false;
+            t2Answered = false;
+            timeLeft = 15;
+            document.getElementById('timer').innerText = timeLeft;
+            document.getElementById('timer').style.color = "#ffe600";
+            
+            const q = quizData[currentQIndex];
+
+            // Update pictures and questions on both sides
+            document.getElementById('q-pic1').innerHTML = q.picture;
+            document.getElementById('q-text1').innerText = "What is this?";
+            document.getElementById('q-pic2').innerHTML = q.picture;
+            document.getElementById('q-text2').innerText = "What is this?";
+
+            // Generate buttons for Team 1
+            const opts1 = document.getElementById('options-team1');
+            opts1.innerHTML = '';
+            opts1.classList.remove('disabled');
+            q.options.forEach((opt, index) => {
+                let btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(1, index, btn);
+                opts1.appendChild(btn);
+            });
+
+            // Generate buttons for Team 2
+            const opts2 = document.getElementById('options-team2');
+            opts2.innerHTML = '';
+            opts2.classList.remove('disabled');
+            q.options.forEach((opt, index) => {
+                let btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                // Generate buttons for Team 2
+const opts2 = document.getElementById('options-team2');
+opts2.innerHTML = '';
+opts2.classList.remove('disabled');
+
+q.options.forEach((opt, index) => {
+    let btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerText = opt;
+    btn.onclick = () => handleAnswer(2, index, btn);
+    opts2.appendChild(btn);
+});
