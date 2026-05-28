@@ -1,9 +1,10 @@
+HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parts of the Body Quiz - เกมทายอวัยวะ</title>
+    <title>Parts of the Body Game - เกมทายอวัยวะ</title>
     <style>
         /* =========================================
            NEON CUTE CSS DESIGN
@@ -200,8 +201,8 @@
 <body>
 
     <div id="home-screen" class="screen active">
-        <h1>Parts of the Body Quiz!</h1>
-        <h2 style="color: #fff;">Body Parts Guessing Game for Kindergarten</h2>
+        <h1>Parts of the Body Game!</h1>
+        <h2 style="color: #fff;">Guessing Game for Kindergarten</h2>
         <div style="font-size: 5rem; margin: 20px;">👦👧</div>
         <button class="btn btn-t1" onclick="startGame()">PLAY (เล่นเลย)</button>
         <button class="btn" style="border-color: #aaa;" onclick="exitGame()">EXIT (ออก)</button>
@@ -220,7 +221,7 @@
                 <div class="score-box" style="color: var(--team1-color);" id="score1">0</div>
                 
                 <div class="emoji-pic" id="q-pic1">👁️</div>
-                <h2 id="q-text1">What is it?</h2>
+                <h2 id="q-text1">What is this?</h2>
                 
                 <div class="options-grid" id="options-team1">
                     </div>
@@ -231,7 +232,7 @@
                 <div class="score-box" style="color: var(--team2-color);" id="score2">0</div>
                 
                 <div class="emoji-pic" id="q-pic2">👁️</div>
-                <h2 id="q-text2">What is it?</h2>
+                <h2 id="q-text2">What is this?</h2>
                 
                 <div class="options-grid" id="options-team2">
                     </div>
@@ -402,9 +403,9 @@
 
             // Update pictures and questions on both sides
             document.getElementById('q-pic1').innerHTML = q.picture;
-            document.getElementById('q-text1').innerText = "What is it?";
+            document.getElementById('q-text1').innerText = "What is this?";
             document.getElementById('q-pic2').innerHTML = q.picture;
-            document.getElementById('q-text2').innerText = "What is it?";
+            document.getElementById('q-text2').innerText = "What is this?";
 
             // Generate buttons for Team 1
             const opts1 = document.getElementById('options-team1');
@@ -425,15 +426,106 @@
             q.options.forEach((opt, index) => {
                 let btn = document.createElement('button');
                 btn.className = 'opt-btn';
-                // Generate buttons for Team 2
-const opts2 = document.getElementById('options-team2');
-opts2.innerHTML = '';
-opts2.classList.remove('disabled');
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(2, index, btn);
+                opts2.appendChild(btn);
+            });
 
-q.options.forEach((opt, index) => {
-    let btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.innerText = opt;
-    btn.onclick = () => handleAnswer(2, index, btn);
-    opts2.appendChild(btn);
-});
+            // Timer Logic
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = timeLeft;
+                if (timeLeft <= 5) document.getElementById('timer').style.color = "var(--wrong-color)";
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    revealAnswers();
+                    setTimeout(() => nextQuestion(false), 2500);
+                }
+            }, 1000);
+        }
+
+        function handleAnswer(team, selectedIndex, btnEl) {
+            const q = quizData[currentQIndex];
+            const isCorrect = (selectedIndex === q.correctIndex);
+
+            // Lock the team's side so they can't click again
+            document.getElementById(`options-team${team}`).classList.add('disabled');
+
+            if (team === 1) {
+                t1Answered = true;
+                if (isCorrect) scoreT1 += 10;
+            } else {
+                t2Answered = true;
+                if (isCorrect) scoreT2 += 10;
+            }
+
+            // Visual feedback on the button clicked
+            if (isCorrect) {
+                btnEl.classList.add('correct');
+                playSound('correct');
+            } else {
+                btnEl.classList.add('wrong');
+                playSound('wrong');
+            }
+
+            updateScores();
+
+            // If both teams have answered, stop timer and move on
+            if (t1Answered && t2Answered) {
+                clearInterval(timerInterval);
+                revealAnswers();
+                setTimeout(() => nextQuestion(false), 2000);
+            }
+        }
+
+        function revealAnswers() {
+            const q = quizData[currentQIndex];
+            
+            // Show correct answer to both teams if they missed it
+            const t1Buttons = document.getElementById('options-team1').children;
+            const t2Buttons = document.getElementById('options-team2').children;
+            
+            if(t1Buttons.length > 0) t1Buttons[q.correctIndex].classList.add('correct');
+            if(t2Buttons.length > 0) t2Buttons[q.correctIndex].classList.add('correct');
+            
+            document.getElementById('options-team1').classList.add('disabled');
+            document.getElementById('options-team2').classList.add('disabled');
+        }
+
+        function updateScores() {
+            document.getElementById('score1').innerText = scoreT1;
+            document.getElementById('score2').innerText = scoreT2;
+        }
+
+        function nextQuestion(isSkip) {
+            if(isSkip) clearInterval(timerInterval);
+            currentQIndex++;
+            loadQuestion();
+        }
+
+        function showWinner() {
+            switchScreen('end-screen');
+            const winText = document.getElementById('winner-text');
+            const scoreText = document.getElementById('final-scores');
+
+            scoreText.innerText = `Team Pink: ${scoreT1} | Team Cyan: ${scoreT2}`;
+
+            if (scoreT1 > scoreT2) {
+                winText.innerText = "Team Pink Wins! 💖";
+                winText.style.color = "var(--team1-color)";
+                winText.style.textShadow = "0 0 20px var(--team1-color)";
+            } else if (scoreT2 > scoreT1) {
+                winText.innerText = "Team Cyan Wins! 💙";
+                winText.style.color = "var(--team2-color)";
+                winText.style.textShadow = "0 0 20px var(--team2-color)";
+            } else {
+                winText.innerText = "It's a Tie! 🤝";
+                winText.style.color = "var(--correct-color)";
+                winText.style.textShadow = "0 0 20px var(--correct-color)";
+            }
+        }
+    </script>
+</body>
+</html>
