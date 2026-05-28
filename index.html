@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Body Parts Quiz - เกมทายอวัยวะ</title>
+    <title>Parts of the Body Quiz - เกมทายอวัยวะ</title>
     <style>
         /* =========================================
            NEON CUTE CSS DESIGN
@@ -200,7 +200,7 @@
 <body>
 
     <div id="home-screen" class="screen active">
-        <h1>Neon Body Quiz!</h1>
+        <h1>Parts of the Body Quiz!</h1>
         <h2 style="color: #fff;">เกมทายอวัยวะ สำหรับเด็ก 3 ขวบ</h2>
         <div style="font-size: 5rem; margin: 20px;">👦👧</div>
         <button class="btn btn-t1" onclick="startGame()">PLAY (เล่นเลย)</button>
@@ -220,7 +220,7 @@
                 <div class="score-box" style="color: var(--team1-color);" id="score1">0</div>
                 
                 <div class="emoji-pic" id="q-pic1">👁️</div>
-                <h2 id="q-text1">What is this?</h2>
+                <h2 id="q-text1">What is it?</h2>
                 
                 <div class="options-grid" id="options-team1">
                     </div>
@@ -231,7 +231,7 @@
                 <div class="score-box" style="color: var(--team2-color);" id="score2">0</div>
                 
                 <div class="emoji-pic" id="q-pic2">👁️</div>
-                <h2 id="q-text2">What is this?</h2>
+                <h2 id="q-text2">What is it?</h2>
                 
                 <div class="options-grid" id="options-team2">
                     </div>
@@ -402,9 +402,9 @@
 
             // Update pictures and questions on both sides
             document.getElementById('q-pic1').innerHTML = q.picture;
-            document.getElementById('q-text1').innerText = "What is this?";
+            document.getElementById('q-text1').innerText = "What is it?";
             document.getElementById('q-pic2').innerHTML = q.picture;
-            document.getElementById('q-text2').innerText = "What is this?";
+            document.getElementById('q-text2').innerText = "What is it?";
 
             // Generate buttons for Team 1
             const opts1 = document.getElementById('options-team1');
