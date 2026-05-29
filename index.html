@@ -11,12 +11,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Kanit:wght@400;600&display=swap');
 
         :root {
-            --bg-color: #ffffff;
+            --bg-color: #f0f8ff;
             --team1-color: #ff007f; /* Neon Pink */
             --team2-color: #00f3ff; /* Neon Cyan */
             --correct-color: #39ff14; /* Neon Green */
             --wrong-color: #ff3333;
-            --text-light: #ffffff;
+            --text-light: #333333;
         }
 
         body {
@@ -47,22 +47,27 @@
         h1 {
             font-size: 4rem;
             margin-bottom: 10px;
-            text-shadow: 0 0 10px #fff, 0 0 20px #ff007f, 0 0 30px #ff007f;
+            color: #ff007f;
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
         }
 
-        h2 { font-size: 2.5rem; margin: 10px; }
+        h2 { 
+            font-size: 2.5rem; 
+            margin: 10px;
+            color: #333333;
+        }
         
         .emoji-pic {
             font-size: 8rem;
             margin: 10px;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.1));
         }
 
         /* Buttons */
         .btn {
-            background: transparent;
-            border: 4px solid var(--text-light);
-            color: var(--text-light);
+            background: white;
+            border: 4px solid #ff007f;
+            color: #333333;
             font-size: 2rem;
             padding: 15px 40px;
             border-radius: 50px;
@@ -70,16 +75,22 @@
             font-family: inherit;
             transition: all 0.2s;
             margin: 10px;
-            box-shadow: 0 0 10px var(--text-light) inset, 0 0 10px var(--text-light);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .btn:active { transform: scale(0.95); }
 
-        .btn-t1 { border-color: var(--team1-color); box-shadow: 0 0 15px var(--team1-color) inset, 0 0 15px var(--team1-color); }
-        .btn-t2 { border-color: var(--team2-color); box-shadow: 0 0 15px var(--team2-color) inset, 0 0 15px var(--team2-color); }
+        .btn-t1 { 
+            border-color: var(--team1-color); 
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
+        }
+        .btn-t2 { 
+            border-color: var(--team2-color); 
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+        }
         
         .btn-t1:hover { background: var(--team1-color); color: #fff; }
-        .btn-t2:hover { background: var(--team2-color); color: #1a1a2e; }
+        .btn-t2:hover { background: var(--team2-color); color: #333; }
 
         /* Top Navigation & Status Bar */
         .top-bar {
@@ -91,25 +102,32 @@
             align-items: center;
             padding: 15px 30px;
             box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.9);
             z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .nav-btn {
             font-size: 1.2rem;
             padding: 10px 20px;
-            background: #333;
-            border: 2px solid #fff;
-            color: white;
+            background: white;
+            border: 2px solid #ff007f;
+            color: #333333;
             border-radius: 15px;
             cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: #ff007f;
+            color: white;
         }
 
         .timer-circle {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #ffe600;
-            text-shadow: 0 0 15px #ffe600;
+            color: #ff6b00;
+            text-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
         }
 
         /* Split Screen Game Layout */
@@ -127,7 +145,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-right: 2px dashed rgba(255,255,255,0.2);
+            border-right: 3px solid rgba(255, 0, 127, 0.2);
             padding: 20px;
         }
         .team-side:last-child { border-right: none; }
@@ -136,12 +154,13 @@
             font-size: 2.5rem;
             margin-bottom: 20px;
         }
-        .t1-title { color: var(--team1-color); text-shadow: 0 0 10px var(--team1-color); }
-        .t2-title { color: var(--team2-color); text-shadow: 0 0 10px var(--team2-color); }
+        .t1-title { color: var(--team1-color); text-shadow: 0 0 10px rgba(255, 0, 127, 0.2); }
+        .t2-title { color: var(--team2-color); text-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
 
         .score-box {
             font-size: 3rem;
             margin-bottom: 20px;
+            font-weight: bold;
         }
 
         /* Option Buttons Grid */
@@ -157,17 +176,23 @@
             font-size: 2rem;
             padding: 20px;
             border-radius: 20px;
-            border: 3px solid #fff;
-            background: #2a2a40;
-            color: white;
+            border: 3px solid #ff007f;
+            background: white;
+            color: #333333;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .opt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         /* Answer States */
         .opt-btn.correct {
             background: var(--correct-color);
-            border-color: #fff;
+            border-color: var(--correct-color);
             color: #000;
             box-shadow: 0 0 20px var(--correct-color);
             transform: scale(1.05);
@@ -175,7 +200,9 @@
 
         .opt-btn.wrong {
             background: var(--wrong-color);
-            opacity: 0.5;
+            border-color: var(--wrong-color);
+            color: white;
+            opacity: 0.7;
         }
         
         .disabled { pointer-events: none; opacity: 0.8; }
@@ -186,7 +213,7 @@
         /* Mobile Layout Adjustments */
         @media (max-width: 768px) {
             .game-area { flex-direction: column; }
-            .team-side { border-right: none; border-bottom: 2px dashed rgba(255,255,255,0.2); padding: 10px; }
+            .team-side { border-right: none; border-bottom: 3px solid rgba(255, 0, 127, 0.2); padding: 10px; }
             .team-side:last-child { border-bottom: none; }
             .emoji-pic { font-size: 4rem; margin: 0; }
             h2 { font-size: 1.5rem; }
@@ -201,10 +228,10 @@
 
     <div id="home-screen" class="screen active">
         <h1>Parts of the Body Game!</h1>
-        <h2 style="color: #fff;">Guessing Game for Kindergarten</h2>
+        <h2>Guessing Game for Kindergarten</h2>
         <div style="font-size: 5rem; margin: 20px;">👦👧</div>
         <button class="btn btn-t1" onclick="startGame()">PLAY (เล่นเลย)</button>
-        <button class="btn" style="border-color: #aaa;" onclick="exitGame()">EXIT (ออก)</button>
+        <button class="btn" onclick="exitGame()">EXIT (ออก)</button>
     </div>
 
     <div id="game-screen" class="screen">
@@ -244,13 +271,13 @@
         <div style="font-size: 4rem; margin: 20px;">🏆✨</div>
         <h2 id="final-scores">Pink: 0 | Cyan: 0</h2>
         <button class="btn btn-t1" onclick="startGame()">Play Again (เล่นอีกครั้ง)</button>
-        <button class="btn nav-btn" onclick="goHome()">🏠 Home</button>
+        <button class="btn" onclick="goHome()">🏠 Home</button>
     </div>
 
     <div id="exit-screen" class="screen">
         <h1>Goodbye! 👋</h1>
         <h2>บ๊ายบาย!</h2>
-        <button class="btn nav-btn" onclick="goHome()">Go Back</button>
+        <button class="btn" onclick="goHome()">Go Back</button>
     </div>
 
     <script>
@@ -396,7 +423,7 @@
             t2Answered = false;
             timeLeft = 15;
             document.getElementById('timer').innerText = timeLeft;
-            document.getElementById('timer').style.color = "#ffe600";
+            document.getElementById('timer').style.color = "#ff6b00";
             
             const q = quizData[currentQIndex];
 
@@ -435,7 +462,7 @@
             timerInterval = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timer').innerText = timeLeft;
-                if (timeLeft <= 5) document.getElementById('timer').style.color = "var(--wrong-color)";
+                if (timeLeft <= 5) document.getElementById('timer').style.color = "#ff3333";
                 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
@@ -514,11 +541,11 @@
             if (scoreT1 > scoreT2) {
                 winText.innerText = "Team Pink Wins! 💖";
                 winText.style.color = "var(--team1-color)";
-                winText.style.textShadow = "0 0 20px var(--team1-color)";
+                winText.style.textShadow = "0 0 20px rgba(255, 0, 127, 0.3)";
             } else if (scoreT2 > scoreT1) {
                 winText.innerText = "Team Cyan Wins! 💙";
                 winText.style.color = "var(--team2-color)";
-                winText.style.textShadow = "0 0 20px var(--team2-color)";
+                winText.style.textShadow = "0 0 20px rgba(0, 243, 255, 0.3)";
             } else {
                 winText.innerText = "It's a Tie! 🤝";
                 winText.style.color = "var(--correct-color)";
